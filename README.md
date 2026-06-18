@@ -1,107 +1,237 @@
-# TestProject (Django)
+# E-Commerce Platform
 
-A Django-based web app with restaurant browsing, menu items, cart/checkout, delivery, and basic payment integration. Includes admin dashboards for staff, customer and delivery views, and demo seed data for easy local testing.
+A full-stack Django-based e-commerce application featuring restaurant browsing, product catalogs, shopping cart management, checkout, and integrated delivery and payment systems. Includes role-based admin dashboards for staff, customers, and delivery personnel.
 
-## Features
-- Restaurant listing and details (`templates/restaurant/`)
-- Menu items, cart, and checkout (`templates/cart/`, `templates/checkout/`)
-- Customer, delivery, and admin dashboards (`templates/customer/`, `templates/delivery/`, `templates/admin/`)
-- Authentication with login and phone verification (`templates/auth/`)
-- Image uploads to `media/`
-- Admin site at `/admin/`
+---
 
-## Requirements
-- Python 3.10+ (Windows supported)
-- pip (comes with Python)
-- SQLite (bundled, no setup needed)
+## 📋 Table of Contents
 
-Python dependencies are pinned in `requirements.txt` (Django 5.2.x, DRF, SimpleJWT, Pillow, NumPy, Shapely, etc.).
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [API & Configuration](#api--configuration)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
 
-## Quick Start (Windows PowerShell)
+---
+
+## ✨ Features
+
+- **Restaurant Management**: Browse restaurants and view detailed information
+- **Product Catalog**: Browse menu items with filtering and search
+- **Shopping Cart**: Add/remove items, manage quantities, and view cart summary
+- **Checkout System**: Streamlined multi-step checkout process
+- **Payment Integration**: Basic payment gateway integration
+- **Delivery System**: Order tracking and delivery management
+- **Authentication**: Secure login with phone verification
+- **Role-Based Dashboards**:
+  - **Customer Dashboard**: View orders, track deliveries, manage profile
+  - **Delivery Dashboard**: Manage assigned deliveries and routes
+  - **Admin Dashboard**: Manage restaurants, items, users, and orders
+- **Image Management**: Upload and store product and restaurant images
+- **Admin Panel**: Django admin interface at `/admin/`
+
+---
+
+## 🛠 Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| **Backend** | Python 3.10+, Django 5.2.x |
+| **API** | Django REST Framework (DRF) |
+| **Authentication** | SimpleJWT (JSON Web Tokens) |
+| **Database** | SQLite (Development) |
+| **Image Processing** | Pillow |
+| **Geolocation** | Shapely, NumPy |
+| **Frontend** | HTML5, CSS3, JavaScript |
+
+---
+
+## 📦 Requirements
+
+- **Python**: 3.10 or higher
+- **pip**: Package manager (included with Python)
+- **SQLite**: Bundled with Python (no additional setup needed)
+
+All Python dependencies are specified in `requirements.txt` and will be installed automatically.
+
+---
+
+## 🚀 Installation
+
+### Windows (PowerShell)
+
 ```powershell
-# From project root
-cd E:\Code\Python\TestProject
+# 1. Navigate to project directory
+cd path\to\E-commerce-
 
-# 1) Create & activate virtualenv (skip if venv/ already exists)
+# 2. Create and activate virtual environment (skip if venv/ exists)
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 
-# 2) Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 3) Database migrations
+# 4. Run database migrations
 python manage.py migrate
 
-# 4) Create an admin user
+# 5. Create superuser account (for admin access)
 python manage.py createsuperuser
 
-# 5) (Optional) Load demo data
+# 6. (Optional) Load demo data
 python manage.py seed_demo
 
-# 6) Run the server
+# 7. Start development server
 python manage.py runserver
 ```
-Now open `http://127.0.0.1:8000/` in your browser. The admin is at `http://127.0.0.1:8000/admin/`.
 
-## Project Structure (high level)
+**Access the application:**
+- Application: `http://127.0.0.1:8000/`
+- Admin Panel: `http://127.0.0.1:8000/admin/`
+
+---
+
+## 📂 Project Structure
+
 ```
-TestProject/
-  manage.py
-  requirements.txt
-  testproject/            # Django project settings
-  main/                   # Main app: models, views, urls, mgmt commands
-  templates/              # HTML templates (home, auth, restaurant, cart, etc.)
-  static/                 # CSS/JS/images (served in development)
-  media/                  # Uploaded images (e.g. restaurant images)
-  db.sqlite3              # SQLite database (local dev)
-  venv/                   # Virtual environment (local-only)
+E-commerce-/
+├── manage.py                 # Django management script
+├── requirements.txt          # Python dependencies
+├── db.sqlite3               # SQLite database (local development)
+├── testproject/             # Django project settings
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── main/                    # Primary Django app
+│   ├── models.py           # Database models
+│   ├── views.py            # View logic
+│   ├── urls.py             # URL routing
+│   ├── serializers.py      # DRF serializers
+│   └── management/         # Custom management commands
+├── templates/              # HTML templates
+│   ├── auth/              # Authentication pages
+│   ├── restaurant/        # Restaurant listing & details
+│   ├── cart/              # Shopping cart
+│   ├── checkout/          # Checkout process
+│   ├── customer/          # Customer dashboard
+│   ├── delivery/          # Delivery dashboard
+│   └── admin/             # Admin dashboard
+├── static/                 # Static files (CSS, JS, images)
+├── media/                  # User-uploaded files (restaurant/product images)
+└── venv/                   # Virtual environment (local only)
 ```
 
-## Common Commands
+---
+
+## 📝 Usage
+
+### Common Django Commands
+
 ```powershell
-# Run tests
+# Run unit tests
 python manage.py test
 
-# Create a new app (example)
+# Create a new app
 python manage.py startapp myapp
 
-# Make and apply model changes
+# Database migrations
 python manage.py makemigrations
 python manage.py migrate
 
-# Collect static files for production (optional)
+# Collect static files (for production)
 python manage.py collectstatic
+
+# Create admin superuser
+python manage.py createsuperuser
+
+# Load demo/seed data
+python manage.py seed_demo
 ```
 
-## Configuration
-The default settings module is `testproject.settings`.
+---
 
-Environment variables you may want to set (optional):
-- `DEBUG` (default True in development): `True` or `False`
-- `SECRET_KEY`: set a strong secret for production
-- `ALLOWED_HOSTS`: e.g. `127.0.0.1,localhost`
+## 🔧 API & Configuration
 
-If you use a `.env` file, ensure it is loaded (e.g., via `python-dotenv` or your own loader). This project works out-of-the-box with SQLite and the provided settings for local dev.
+### Environment Variables (Optional)
 
-## Data & Media
-- User-uploaded images are stored under `media/`.
-- Example placeholder assets live under `static/`.
-- Demo content can be created with: `python manage.py seed_demo`.
+Configure these environment variables in a `.env` file or system environment:
 
-## Troubleshooting (Windows)
-- Virtualenv activation policy error:
+```env
+DEBUG=True                              # Set to False for production
+SECRET_KEY=your-secret-key-here         # Strong secret for production
+ALLOWED_HOSTS=127.0.0.1,localhost       # Allowed host addresses
+DATABASE_URL=sqlite:///db.sqlite3       # Database connection string
+```
+
+**Default Configuration**: The project is pre-configured for local development with SQLite and works out-of-the-box.
+
+### Settings Module
+
+The default Django settings module is `testproject.settings`. Adjust configuration based on your deployment environment.
+
+---
+
+## 📦 Data & Media
+
+- **User Uploads**: Stored in the `media/` directory
+- **Static Assets**: Located in `static/` (CSS, JavaScript, placeholder images)
+- **Demo Data**: Load with `python manage.py seed_demo`
+
+---
+
+## 🐛 Troubleshooting
+
+### Virtualenv Activation Issues (Windows)
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+```
+
+### Database Locked Error
+
+- Ensure no other processes are accessing `db.sqlite3`
+- Stop the development server and retry
+
+### Pillow Installation Issues
+
+- Ensure Python 3.10+ is installed
+- Use the virtual environment for installation
+- Prebuilt wheels in `requirements.txt` should install automatically
+
+### Shapely/NumPy Slow Installation
+
+- Prebuilt wheels are configured in `requirements.txt`
+- If compilation occurs, upgrade pip:
   ```powershell
-  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-  .\venv\Scripts\Activate.ps1
+  python -m pip install --upgrade pip
   ```
-- SQLite locked error: stop other processes using `db.sqlite3`, then retry.
-- Pillow install issues: ensure you have a recent Python version (3.10+) and use the virtualenv. Wheels in `requirements.txt` should install automatically.
-- Shapely/NumPy slow install: prebuilt wheels are used; if it compiles, upgrade pip: `python -m pip install --upgrade pip` and retry.
-- Migrations not picked up: run `python manage.py makemigrations` then `python manage.py migrate`.
+- Retry installation
 
-## Useful URLs
-- Home: `http://127.0.0.1:8000/`
-- Admin: `http://127.0.0.1:8000/admin/`
+### Migrations Not Applied
 
-## License
-This project is for learning/demo purposes. Add a LICENSE file if you plan to distribute.
+```powershell
+python manage.py makemigrations
+python manage.py migrate
+```
+
+---
+
+## 📄 License
+
+This project is for educational and demonstration purposes. Include a LICENSE file if you plan to distribute or open-source this project.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please ensure code follows Django best practices and includes appropriate tests.
+
+---
+
+## 📞 Support
+
+For issues or questions, please open an issue on the GitHub repository.
