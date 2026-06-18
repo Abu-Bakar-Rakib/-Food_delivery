@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TestProject{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TestProject</div>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">🏠 Home</a></li>
+                <li><a href="{% url 'restaurant_list' %}">🍽️ Restaurants</a></li>
+                <li>
+                    <form method="get" action="{% url 'search' %}" style="display:inline;">
+                        <input type="search" name="q" placeholder="Search food..." style="height:28px;">
+                    </form>
+                </li>
+                <li><a href="{% url 'view_cart' %}">🛒 Cart</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile' %}">👤 Profile</a></li>
+                    {% if user.user_type == 'admin' %}
+                        <li><a href="{% url 'admin_dashboard' %}">⚙️ Admin</a></li>
+                    {% elif user.user_type == 'delivery' %}
+                        <li><a href="{% url 'delivery_dashboard' %}">🚚 Delivery</a></li>
+                    {% else %}
+                        <li><a href="{% url 'customer_dashboard' %}">📋 Orders</a></li>
+                    {% endif %}
+                    <li>
+                        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.5rem 1rem; border-radius: 25px; cursor: pointer;">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}" style="color: white; border: 2px solid white; padding: 0.5rem 1rem; border-radius: 25px; text-decoration: none;">Login</a></li>
+                    <li><a href="{% url 'register' %}" class="btn btn-primary">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023 TestProject. All rights reserved.</p>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
